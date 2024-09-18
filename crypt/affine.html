@@ -1,0 +1,247 @@
+<HTML>
+  <head>
+    <title>AFFINE CYPHER</title>
+    <LINK REL="stylesheet" type=text/css href="lib/default.css"/>
+    <LINK REL="stylesheet" type=text/css href="lib/stylesheet1.css"/>
+    <script language=JavaScript1.2 src="lib/common.js"></script>
+    <style type=text/css>
+      A:link { COLOR: #000000; TEXT-DECORATION: none; }
+      A:visited { COLOR: #000000; TEXT-DECORATION: none; }
+      A:hover { COLOR: #987878; TEXT-DECORATION: underline; }
+      
+      .men1:link { COLOR: #ffffff; TEXT-DECORATION: none;}
+      .men1:visited { COLOR: #ffffff; TEXT-DECORATION: none; }
+      .men1:hover { COLOR: #ffffe8; TEXT-DECORATION: underline; }
+      
+      td { FONT-FAMILY: Verdana,Arial,Helvetica; FONT-SIZE: xx-small }
+      
+      body{margin-top: 0px;margin-right:0px; margin-bottom:0px; margin-left:0px;
+      FONT-FAMILY: Verdana,Arial,Helvetica; FONT-SIZE: x-small }
+      LI.arr{ margin="3"; list-style-image:url("images/marrow.gif"); }
+    </style>
+
+<script language="JavaScript">
+//---------------------------------------------------------------------------
+function MSG(s)
+{
+	var o = FIND("msg");
+	o.innerHTML = s;
+}
+var tcount = 0;
+function test()
+{
+	t = Math.mod(-3,7);
+	// Notice Math mod does not work right in javascript !! CRAP
+   alert("test " + tcount++  + "  " +t);
+}
+//---------------------------------------------------------------------------
+function RandomKey()	
+{
+	while(1){
+		a = RandomNumber(0, 25);
+		MSG("Trying with random number " + a );
+		if(gcd(a,26) == 1){
+			document.f1.A0.value = a;
+			document.f1.A1.value = RandomNumber(0, 25);
+			document.f1.A2.value = MulInv(a, 26);
+			break;
+		}
+	}
+}	
+//---------------------------------------------------------------------------
+function RemoveSpaces()
+{
+	enc=document.f1.t2.value;
+	temp="";
+	X=0;
+	while (X<enc.length){
+		if(enc.charAt(X)!=" ") temp+=(enc.charAt(X));
+		else
+			if (enc.charAt(X)==" ") temp+="";
+		X++;
+	}
+	document.f1.t2.value=temp.toLowerCase();
+}
+//---------------------------------------------------------------------------
+function AddSpaces()
+{
+   RemoveSpaces();
+	enc=document.f1.t2.value;
+
+	temp1="";
+	X=0;
+	ad=document.f1.D1.value;
+	tes=0;
+	while (X < enc.length)
+	{
+		if (tes==ad) tes=0;
+		temp1 +=(enc.charAt(X));
+		tes++;
+		if (tes==ad) temp1+=" ";
+		X++;
+	}
+	document.f1.t2.value=temp1.toLowerCase();
+}
+//---------------------------------------------------------------------------
+function GetKeys()	
+{
+	a = document.f1.A0.value;
+	b = parseInt( (document.f1.A1.value)?document.f1.A1.value:0 );
+	g = gcd(a,26);
+	if ( g != 1 ){
+		MSG("Invalid key a="+ a + " is invalid gcd("+a+", 26)=" + g);
+		return "";
+	}
+	document.f1.A2.value = ""+MulInv(a, 26);
+	
+	m = new Array;
+ 	for (var i=0; i<26; i++)
+	{
+		t = String.fromCharCode( ((a * i + b) % 26) +65);
+		m[i] = t;
+	}
+	return m;
+	
+}
+//---------------------------------------------------------------------------
+function Encode()
+{
+   k = GetKeys();
+	if (!k){
+		return;
+	}
+	enc=" "+document.f1.t1.value.toUpperCase();
+ 	enc=Trim(enc);
+   if(enc == "" )
+	{
+		MSG("Enter some text to encode in 'Text to Encode' box!!");
+		return;
+	}
+	a = document.f1.A0.value;
+	b = parseInt( (document.f1.A1.value)?document.f1.A1.value:0 );
+	c = document.f1.A2.value = ""+MulInv(a, 26);
+	kk = "<i> a = " + a +" ; b = " + b + " ; a<sup>-1</sup> = "+c + "</i>";
+
+	mg="<b>Message:</b><br><li>"+enc+"<br><br>Keys: "+ kk +"<br> " + 
+		"<table border=1 cellpadding=3 cellspacing=0><tr>";
+	et = "<tr>";
+	nt = "<tr>";
+	for( var i=0; i < k.length; i++)
+	{
+		mg += "<td> " + k[i];
+		et  += "<td> " + String.fromCharCode(65+i);
+		nt  += "<td> " + i;
+   }
+	mg += et + nt + "</table><br><br><b>AS: </b><br><br><li>";
+	d = "";
+	for( var i=0; i < enc.length; i++)
+	{
+		c = enc.charCodeAt(i);
+  		d+=(c>='A'.charCodeAt(0) && c<='Z'.charCodeAt(0)) ? k[c-65]:enc.charAt(i);
+	}
+	d = d.toLowerCase();
+	mg += d;
+	MSG(mg);
+	document.f1.t2.value = d;
+}
+//---------------------------------------------------------------------------
+function Decode(enc,k)
+{
+   k1 = GetKeys();
+	if (!k1){
+		return;
+	}
+	k = new Array;
+	for (i=0; i < k1.length; i++)
+	{
+		k[k1[i].charCodeAt(0) - 65] = String.fromCharCode(i+65);
+	}		
+	enc= document.f1.t2.value.toUpperCase();
+ 	enc=Trim(enc);
+   if(enc == "" )
+	{
+		MSG("Enter some text to  in 'Text to Encode or Decode' box!!");
+		return;
+	}
+	kk = "<i> a = " + a +" ; b = " + b + " ; a<sup>-1</sup> = "+c + "</i>";
+	mg="<b>Message:</b><br><li>"+enc+"<br><br>Keys: "+ kk +"<br> " + 
+		"<table border=1 cellpadding=3 cellspacing=0><tr>";
+	et = "<tr>";
+	nt = "<tr>";
+	for( var i=0; i < k.length; i++)
+	{
+		mg += "<td> " + k[i];
+		et  += "<td> " + String.fromCharCode(65+i);
+		nt  += "<td> " + i;
+   }
+	mg += et + nt + "</table><br><br><b>AS: </b><br><br><li>";
+	d = "";
+	for( var i=0; i < enc.length; i++)
+	{
+		c = enc.charCodeAt(i);
+  		d+=(c>='A'.charCodeAt(0) && c<='Z'.charCodeAt(0)) ? k[c-65]:enc.charAt(i);
+	}
+	d = d.toLowerCase();
+	mg += d;
+	MSG(mg);
+	document.f1.t1.value = d;
+}
+//---------------------------------------------------------------------------
+</script>
+</head>
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+<body topmargin="0">
+<FORM name=f1> 
+  <center>
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr><td align="center" colspan="3" width="100%">
+	<H3>ENCODER/DECODER - AFFINE CYPHER</H3>
+      </td></tr>
+      <tr><td width="100%" colspan="3" height="2" bgcolor="black"></td></tr>
+      <tr><td width="100%" colspan="3" height="2" ></td></tr>
+      <tr>
+        <td width="50%" height="20" align="center"><b>Text To Encode</b></td>
+        <td width="50%" height="20" align="center"><b>Text To Decode</b></td>
+      </tr>
+      <tr>
+        <td width="50%" align="center">
+	  <textarea name=t1 cols=35 rows=10>text to encode</textarea></td>
+        <td width="50%" align="center">
+	  <textarea name=t2 cols="35" rows=10></textarea></td>
+      </tr>
+      <tr><td align="center" valign="bottom" colspan="3" width="100%">
+	<H3>--</H3>
+		a = <input type="text" name="A0" size="2" maxlength="2">
+		b = <input type="text" name="A1" size="2" maxlength="2">
+		a<sup>-1</sup> = <input type="text" name="A2" size="2" maxlength="2">
+	<br>
+		[ e(x)= (ax + b) mod 26 ] <br/>
+		[ d(x)= a<sup>-1</sup>(y - b) mod 26 ]
+      </td></tr>
+    </table>
+  </center>
+<p align="center">
+  <input type="button" value="Random Key" onclick="RandomKey();">
+  <input type="button" value="Encode" onclick="Encode()">
+  <input type="button" value="Decode" onclick="Decode()">
+  <input type="button" value="Remove Spaces" onclick="RemoveSpaces()">
+  <input type="button" value="Add Spaces" onclick="AddSpaces()">  
+  <select size="1" name="D1"> 
+    <option value="4">4</option>
+    <option value="5">5</option>
+    <option value="6">6</option>
+    <option value="7">7</option>
+    <option value="8">8</option>
+    <option value="9">9</option>
+    <option value="10">10</option>
+  </select>
+	<br>
+	<BR>
+	Missing keys will be replaced by value of b=0 !! 
+<hr>
+	<b> <font color="firebrick">
+	<div id="msg" style="display:;"></div>
+	</b></font>
+</form>
+</body>
+</html>

@@ -1,0 +1,78 @@
+body {
+    margin-left:10px;
+    margin-top:0px;
+    margin-right:0px;
+    margin-bottom:0px;
+    width: 800px;
+    font-family: Helvetica;
+    font-size: 10pt;
+}
+
+.section {
+    font-size: 14pt;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    color: darkblue;
+}
+
+.toolbar {
+    color: orange;
+}
+
+strong {
+    color: blue;
+    font-weight: normal;
+    font-style: italic;
+}
+
+tr, td {
+    font-family: Helvetica;
+    font-size: 10pt;
+}
+
+a:link, a:visited {
+    color: darkblue;  
+    text-decoration: none;
+    position: absolute;
+    left: 720px;
+    font-size: 10pt;
+}
+
+a:hover, a:active {
+    color: blue;  
+    text-decoration: none;
+    position: absolute;
+    left: 720px;
+    font-size: 10pt;
+}
+
+.title {
+    padding-left:10px;
+    font-size: 16pt;
+    text-align:center;
+    background-image: url('squared_metal.gif');
+}
+
+.selection {
+    padding-left:10px;
+    font-size: 8pt;
+    text-align:center;
+    background-image: url('squared_metal.gif');
+}
+
+.io_toolbar, .edit_toolbar, .stats_toolbar, .cipher_toolbar, .english_toolbar, .calc_toolbar, .primes_toolbar {
+    padding-left:10px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    width: 780px;
+}
+
+.io_toolbar, .english_toolbar, .primes_toolbar {
+    background-image: url('squared_metal_dark.gif');
+}
+.cipher_toolbar {
+    background-image: url('squared_metal_lightblue.gif');
+}
+.edit_toolbar, .stats_toolbar, .calc_toolbar {
+    background-image: url('squared_metal_darkest.gif');
+}

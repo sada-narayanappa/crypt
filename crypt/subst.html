@@ -1,0 +1,392 @@
+<HTML>
+  <head>
+    <title>SHIFT CYPHER</title>
+    <LINK REL="stylesheet" type=text/css href="lib/default.css"/>
+    <LINK REL="stylesheet" type=text/css href="lib/stylesheet1.css"/>
+    <script language=JavaScript1.2 src="lib/common.js"></script>
+    <style type=text/css>
+      A:link { COLOR: #000000; TEXT-DECORATION: none; }
+      A:visited { COLOR: #000000; TEXT-DECORATION: none; }
+      A:hover { COLOR: #987878; TEXT-DECORATION: underline; }
+      
+      .men1:link { COLOR: #ffffff; TEXT-DECORATION: none;}
+      .men1:visited { COLOR: #ffffff; TEXT-DECORATION: none; }
+      .men1:hover { COLOR: #ffffe8; TEXT-DECORATION: underline; }
+      
+      td { FONT-FAMILY: Verdana,Arial,Helvetica; FONT-SIZE: xx-small }
+      
+      body{margin-top: 0px;margin-right:0px; margin-bottom:0px; margin-left:0px;
+      FONT-FAMILY: Verdana,Arial,Helvetica; FONT-SIZE: x-small }
+      LI.arr{ margin="3"; list-style-image:url("images/marrow.gif"); }
+    </style>
+
+<script language="JavaScript">
+//---------------------------------------------------------------------------
+function MSG(s)
+{
+	var o = FIND("msg");
+	o.innerHTML = s;
+}
+var tcount = 0;
+function test()
+{
+   alert("test " + tcount++);
+}
+//---------------------------------------------------------------------------
+function RandomKey()	
+{
+	var m = UniqueArray(26, 1, 26);
+ 	for (var i=0; i<26; i++)
+	{
+ 		e="document.f1.A"+i+".value=String.fromCharCode("+parseInt(m[i])+");";
+		eval(e);
+	}
+}
+//---------------------------------------------------------------------------
+function ResetKey()	
+{
+	var m = UniqueArray(26, 1, 26);
+ 	for (var i=0; i<26; i++)
+	{
+ 		e="document.f1.A"+i+".value='';";
+		eval(e);
+	}
+}
+//---------------------------------------------------------------------------
+function GKey()	
+{
+	key = RemoveAll(document.f1.gkey.value.toUpperCase());
+	if (!key){
+		alert("You must enter some text!!");
+		return;
+	}
+	var m = new Array;
+
+	i=0; x=0;
+	while (x < key.length && x < 26 ){
+		ch = key.charAt(x);
+		c = key.charCodeAt(x) - 65;
+		if( NumberFound(c,m) != -1 ){
+			m[i++] = c;
+		}
+		x++;
+	}
+	for (var i=0; i< 26; i++)
+	{
+		if( NumberFound(i,m) != -1 ){
+			m[m.length] = i;
+		}
+	}
+	for (var i=0; i< m.length; i++)
+	{
+		m[i] += 65;
+	}
+ 	for (var i=0; i< 26; i++)
+	{
+ 		e="document.f1.A"+i+".value=String.fromCharCode("+parseInt(m[i])+");";
+		eval(e);
+	}
+}
+//---------------------------------------------------------------------------
+function  UniqueArray(numElements,min,max)
+{
+	var temp, nums = new Array;
+	for (var i=0; i<numElements; i++)
+	{
+		while( (temp = NumberFound(RandomNumber(min, max), nums) ) == -1);
+		nums[i] = temp;
+	}		
+	for (var i=0; i<numElements; i++)
+	{
+		nums[i] += 64;
+	}
+	return (nums)	
+}	
+//---------------------------------------------------------------------------
+function NumberFound(r, nums )
+{
+	for ( var i=0; i<nums.length; i++ )
+	{
+		if (r == nums[i])
+			return ( -1 );			
+	}
+	return (r);	
+}	
+//---------------------------------------------------------------------------
+function RemoveSpacesFromDecode()
+{
+	t=RemoveSpace(document.f1.t2.value);
+	document.f1.t2.value=temp.toLowerCase();
+}
+//---------------------------------------------------------------------------
+function RemoveAllFromDecodedText()
+{
+	t=RemoveAll(document.f1.t2.value);
+	document.f1.t2.value=temp.toLowerCase();
+}
+//---------------------------------------------------------------------------
+function RemoveSpace(enc)
+{
+	temp="";
+	x=0;
+	while (x < enc.length){
+		if(enc.charAt(x)!=" ") temp+=(enc.charAt(x));
+		x++;
+	}
+	return temp;
+}
+//---------------------------------------------------------------------------
+function RemoveAll(enc)
+{
+	enc = enc.toUpperCase();
+	temp="";
+	x=0;
+	while (x < enc.length){
+		c = enc.charCodeAt(x);
+  		if ( c >='A'.charCodeAt(0) && c <= 'Z'.charCodeAt(0) ){
+			temp += enc.charAt(x);
+		}
+		x++;
+	}
+	return temp;
+}
+//---------------------------------------------------------------------------
+function AddSpaces()
+{
+   RemoveSpacesFromDecode();
+	enc=document.f1.t2.value;
+
+	temp1="";
+	X=0;
+	ad=document.f1.D1.value;
+	tes=0;
+	while (X<enc.length)
+	{
+		if (tes==ad) tes=0;
+		temp1 +=(enc.charAt(X));
+		tes++;
+		if (tes==ad) temp1+=" ";
+		X++;
+	}
+	document.f1.t2.value=temp1.toLowerCase();
+}
+//---------------------------------------------------------------------------
+function GetKeys()	
+{
+	var m = new Array;
+	var t;
+ 	for (var i=0; i<26; i++)
+	{
+		m[i] = String.fromCharCode(65+i);
+	}
+ 	for (i=0; i<26; i++)
+	{
+		eval("t = ''+document.f1.A"+i+".value;");
+		t= Trim(t);
+		t = (t) ? t.toUpperCase() : String.fromCharCode(i+65);
+		m[i] = t;
+	}
+	return m;
+}
+//---------------------------------------------------------------------------
+function Encode()
+{
+	enc=" "+document.f1.t1.value.toUpperCase();
+ 	enc=Trim(enc);
+   if(enc == "" )
+	{
+		MSG("Enter some text to encode in 'Text to Encode' box!!");
+		return;
+	}
+	var mg="<b>Message:</b><br><li>"+enc+"<br><br>Keys<br><li>";
+   k = GetKeys();
+	et = "<br><li>";
+	for( var i=0; i < k.length; i++)
+	{
+		mg += " " + k[i];
+		et  += " " + String.fromCharCode(65+i);
+   }
+	mg += et + "<br><br><b>AS: </b><br><br><li>";
+	d = "";
+	for( var i=0; i < enc.length; i++)
+	{
+		c = enc.charCodeAt(i);
+  		d+=(c>='A'.charCodeAt(0) && c<='Z'.charCodeAt(0)) ? k[c-65]:enc.charAt(i);
+	}
+	d = d.toLowerCase();
+	mg += d;
+	MSG(mg);
+	document.f1.t2.value = d;
+}
+//---------------------------------------------------------------------------
+function Decode(enc,k)
+{
+   k1 = GetKeys();
+	k = new Array;
+	for (i=0; i < 26; i++)
+	{
+		k[i] = -1;
+	}
+	for (i=0; i < k1.length; i++)
+	{
+		ci = k1[i].charCodeAt(0) - 65;
+		if ( ci != i )
+			k[ci] = String.fromCharCode(i+65);
+	}
+	for (i=0; i < k1.length; i++)
+	{
+		if ( k[i] == -1 )
+			k[i] = String.fromCharCode(i+65);
+	}
+	enc= document.f1.t2.value.toUpperCase();
+ 	enc=Trim(enc);
+   if(enc == "" )
+	{
+		MSG("Enter some text to  in 'Text to Encode or Decode' box!!");
+		return;
+	}
+	var mg="<b>Message:</b><br><li>"+enc+"<br><br>Keys<br><li>";
+	et = "<br><li>";
+	for( var i=0; i < k.length; i++)
+	{
+		mg += " " + k[i];
+		et  += " " + String.fromCharCode(65+i);
+   }
+	mg += et + "<br><br><b>AS: </b><br><br><li>";
+	d = "";
+	d1 = "";
+	for( var i=0; i < enc.length; i++)
+	{
+		c = enc.charCodeAt(i);
+  		//d+=(c>='A'.charCodeAt(0) && c<='Z'.charCodeAt(0))?k[c-65]:enc.charAt(i);
+  		if(c>='A'.charCodeAt(0) && c<='Z'.charCodeAt(0)){
+			cd = k[c-65].charCodeAt(0);
+			d1 += (cd == c)?k[c-65]: "<font size=+1 color=blue>"+k[c-65]+"</font>";
+			d += k[c-65];
+		}
+		else{
+			d += enc.charAt(i);
+			d1 += enc.charAt(i);
+		}
+	}
+	d = d.toLowerCase();
+	mg += d1;
+	MSG(mg);
+	document.f1.t1.value = d;
+}
+//---------------------------------------------------------------------------
+</script>
+</head>
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+<body topmargin="0">
+<FORM name=f1> 
+  <center>
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr><td align="center" colspan="3" width="100%">
+	<H3>ENCODER/DECODER - SUBSTITUTION CYPHER </H3>
+      </td></tr>
+      <tr><td width="100%" colspan="3" height="2" bgcolor="black"></td></tr>
+      <tr><td width="100%" colspan="3" height="2" ></td></tr>
+      <tr>
+        <td width="50%" height="20" align="center"><b>Text To Encode</b></td>
+        <td width="50%" height="20" align="center"><b>Text To Decode</b></td>
+      </tr>
+      <tr>
+        <td width="50%" align="center">
+	  <textarea name=t1 cols=35 rows=10>text to encode</textarea></td>
+        <td width="50%" align="center">
+	  <textarea name=t2 cols="35" rows=10></textarea></td>
+      </tr>
+      <tr><td align="center" valign="bottom" colspan="3" width="100%">
+	<H3>KEY</H3>
+      </td></tr>
+    </table>
+  <table border="0" cellpadding="0" cellspacing="0" width="100%">
+     <tr>
+      <td width="3%"><font color="#FF0000"><b>A</b></font></td>
+      <td width="3%"><font color="#FF0000"><b>B</b></font></td>
+      <td width="3%"><font color="#FF0000"><b>C</b></font></td>
+      <td width="3%"><font color="#FF0000"><b>D</b></font></td>
+      <td width="3%"><font color="#FF0000"><b>E</b></font></td>
+      <td width="3%"><font color="#FF0000"><b>F</b></font></td>
+      <td width="3%"><font color="#FF0000"><b>G</b></font></td>
+      <td width="3%"><font color="#FF0000"><b>H</b></font></td>
+      <td width="3%"><font color="#FF0000"><b>I</b></font></td>
+      <td width="3%"><font color="#FF0000"><b>J</b></font></td>
+      <td width="3%"><font color="#FF0000"><b>K</b></font></td>
+      <td width="3%"><font color="#FF0000"><b>L</b></font></td>
+      <td width="3%"><font color="#FF0000"><b>M</b></font></td>
+      <td width="3%"><font color="#FF0000"><b>N</b></font></td>
+      <td width="3%"><font color="#FF0000"><b>O</b></font></td>
+      <td width="3%"><font color="#FF0000"><b>P</b></font></td>
+      <td width="3%"><font color="#FF0000"><b>Q</b></font></td>
+      <td width="3%"><font color="#FF0000"><b>R</b></font></td>
+      <td width="3%"><font color="#FF0000"><b>S</b></font></td>
+      <td width="3%"><font color="#FF0000"><b>T</b></font></td>
+      <td width="3%"><font color="#FF0000"><b>U</b></font></td>
+      <td width="3%"><font color="#FF0000"><b>V</b></font></td>
+      <td width="3%"><font color="#FF0000"><b>W</b></font></td>
+      <td width="3%"><font color="#FF0000"><b>X</b></font></td>
+      <td width="3%"><font color="#FF0000"><b>Y</b></font></td>
+      <td width="3%"><font color="#FF0000"><b>Z</b></font></td>
+    </tr>     
+     <tr>
+       <td><input type="text" name="A0" size="2" maxlength="1"></td>
+       <td><input type="text" name="A1" size="2" maxlength="1"></td>
+       <td><input type="text" name="A2" size="2" maxlength="1"></td>
+       <td><input type="text" name="A3" size="2" maxlength="1"></td>
+       <td><input type="text" name="A4" size="2" maxlength="1"></td>
+       <td><input type="text" name="A5" size="2" maxlength="1"></td>
+       <td><input type="text" name="A6" size="2" maxlength="1"></td>
+       <td><input type="text" name="A7" size="2" maxlength="1"></td>
+       <td><input type="text" name="A8" size="2" maxlength="1"></td>
+       <td><input type="text" name="A9" size="2" maxlength="1"></td>
+       <td><input type="text" name="A10" size="2" maxlength="1"></td>
+       <td><input type="text" name="A11" size="2" maxlength="1"></td>
+       <td><input type="text" name="A12" size="2" maxlength="1"></td>
+       <td><input type="text" name="A13" size="2" maxlength="1"></td>
+       <td><input type="text" name="A14" size="2" maxlength="1"></td>
+       <td><input type="text" name="A15" size="2" maxlength="1"></td>
+       <td><input type="text" name="A16" size="2" maxlength="1"></td>
+       <td><input type="text" name="A17" size="2" maxlength="1"></td>
+       <td><input type="text" name="A18" size="2" maxlength="1"></td>
+       <td><input type="text" name="A19" size="2" maxlength="1"></td>
+       <td><input type="text" name="A20" size="2" maxlength="1"></td>
+       <td><input type="text" name="A21" size="2" maxlength="1"></td>
+       <td><input type="text" name="A22" size="2" maxlength="1"></td>
+       <td><input type="text" name="A23" size="2" maxlength="1"></td>
+       <td><input type="text" name="A24" size="2" maxlength="1"></td>
+       <td><input type="text" name="A25" size="2" maxlength="1"></td>
+    </tr>
+  </table>
+  </center>
+<p align="center">
+  <input type="button" value="Encode" onclick="Encode()">
+  <input type="button" value="Decode" onclick="Decode()">
+  <input type="button" value="Remove Spaces" onclick="RemoveSpacesFromDecode()">
+  <input type="button" value="Leave Chars" onclick="RemoveAllFromDecodedText()">
+  <input type="button" value="Add Spaces" onclick="AddSpaces()">  
+  <select size="1" name="D1"> 
+    <option value="4">4</option>
+    <option value="5">5</option>
+    <option value="6">6</option>
+    <option value="7">7</option>
+    <option value="8">8</option>
+    <option value="9">9</option>
+    <option value="10">10</option>
+  </select>
+	<br><br>
+	<input type="button" value="Reset Key" onclick="ResetKey();"><br>
+	<input type="button" value="Generate Random Key" onclick="RandomKey();"><br>
+	OR <br>
+	<input type="button" value="Generate Key from Following Text (ARGENTIS)" 
+	onclick="GKey();">
+	<input type="text" name="gkey" size="60" maxlength="60" value="TODAY IS MONDAY">
+	<BR>
+<hr>
+	<b> <font color="firebrick">
+	<div id="msg" style="display:;"></div>
+	</b></font>
+</form>
+</body>
+</html>

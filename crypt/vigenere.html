@@ -1,0 +1,242 @@
+<HTML>
+  <head>
+    <title>VIGENERE CYPHER</title>
+    <LINK REL="stylesheet" type=text/css href="lib/default.css"/>
+    <LINK REL="stylesheet" type=text/css href="lib/stylesheet1.css"/>
+    <script language=JavaScript1.2 src="lib/common.js"></script>
+    <style type=text/css>
+      A:link { COLOR: #000000; TEXT-DECORATION: none; }
+      A:visited { COLOR: #000000; TEXT-DECORATION: none; }
+      A:hover { COLOR: #987878; TEXT-DECORATION: underline; }
+      
+      .men1:link { COLOR: #ffffff; TEXT-DECORATION: none;}
+      .men1:visited { COLOR: #ffffff; TEXT-DECORATION: none; }
+      .men1:hover { COLOR: #ffffe8; TEXT-DECORATION: underline; }
+      
+      td { FONT-FAMILY: Verdana,Arial,Helvetica; FONT-SIZE: xx-small }
+      
+      body{margin-top: 0px;margin-right:0px; margin-bottom:0px; margin-left:0px;
+      FONT-FAMILY: Verdana,Arial,Helvetica; FONT-SIZE: x-small }
+      LI.arr{ margin="3"; list-style-image:url("images/marrow.gif"); }
+    </style>
+
+<script language="JavaScript">
+//---------------------------------------------------------------------------
+function MSG(s)
+{
+	var o = FIND("msg");
+	o.innerHTML = s;
+}
+var tcount = 0;
+function test(v)
+{
+// 	t = Math.mod(-3,7);
+	// Notice Math mod does not work right in javascript !! CRAP
+   alert("test " + tcount++ + " " + v );
+}
+//---------------------------------------------------------------------------
+function RandomKey()	
+{
+	len = RandomNumber(0, 10);
+	len = (len < 5) ? 5: len;
+	k = "";
+	for (i=0; i <len; i++){
+		a = RandomNumber(0, 25);
+		k += String.fromCharCode(65 + a);
+	}
+	document.f1.A0.value = k;
+}	
+//---------------------------------------------------------------------------
+function RemoveSpaces()
+{
+	enc=document.f1.t2.value;
+	temp="";
+	X=0;
+	while (X<enc.length){
+		if(enc.charAt(X)!=" ") temp+=(enc.charAt(X));
+		else
+			if (enc.charAt(X)==" ") temp+="";
+		X++;
+	}
+	document.f1.t2.value=temp.toLowerCase();
+}
+//---------------------------------------------------------------------------
+function AddSpaces()
+{
+   RemoveSpaces();
+	enc=document.f1.t2.value;
+
+	temp1="";
+	X=0;
+	ad=document.f1.D1.value;
+	tes=0;
+	while (X < enc.length)
+	{
+		if (tes==ad) tes=0;
+		temp1 +=(enc.charAt(X));
+		tes++;
+		if (tes==ad) temp1+=" ";
+		X++;
+	}
+	document.f1.t2.value=temp1.toLowerCase();
+}
+//---------------------------------------------------------------------------
+function GetKeys()	
+{
+	m = new Array;
+	a = Trim(document.f1.A0.value);
+	if ( a == "" ){
+		MSG("Invalid key "+ a);
+	}
+	a = a.toUpperCase();
+	document.f1.A0.value = a;
+ 	for (var i=0; i< a.length; i++)
+	{
+ 		m[i] = a.charCodeAt(i) - 65;
+	}
+	return m;
+}
+//---------------------------------------------------------------------------
+function Encode()
+{
+   k = GetKeys();
+	if (!k){
+		return;
+	}
+	enc=" "+document.f1.t1.value.toUpperCase();
+ 	enc=Trim(enc);
+   if(enc == "" )
+	{
+		MSG("Enter some text to encode in 'Text to Encode' box!!");
+		return;
+	}
+	kk = "<i> "+document.f1.A0.value+ " </i>";
+	mg="<b>Message:</b><br><li>"+enc+"<br><br>Keys: "+ kk +"<br> " + 
+		"<table border=1 cellpadding=3 cellspacing=0><tr>";
+
+	for( var i=0; i < k.length; i++)
+	{
+		mg += "<td> " + k[i];
+   }
+	mg += "</table><br><br><b>AS: </b><br><br><li>";
+	d = "";
+	cur = 0;
+	for( var i=0; i < enc.length; i++)
+	{
+		c = enc.charCodeAt(i);
+  		if (c < 'A'.charCodeAt(0) || c > 'Z'.charCodeAt(0)){
+			ch= enc.charAt(i);
+			d += ch;
+		}
+		else{
+			c = c - 65;
+			t = (k[cur++ % k.length] + c) % 26;
+			d += String.fromCharCode( 65 + t);
+		}
+	}
+	d = d.toLowerCase();
+	mg += d;
+	MSG(mg);
+	document.f1.t2.value = d;
+}
+//---------------------------------------------------------------------------
+function Decode(enc,k)
+{
+   k1 = GetKeys();
+	if (!k1){
+		return;
+	}
+	k = new Array;
+	for(i=0; i < k1.length;  i++){
+		k[i] = (26-k1[i]);
+	}
+	enc= document.f1.t2.value.toUpperCase();
+ 	enc=Trim(enc);
+   if(enc == "" )
+	{
+		MSG("Enter some text to  in 'Text to Encode or Decode' box!!");
+		return;
+	}
+	kk = "<i> "+document.f1.A0.value+ " </i>";
+	mg="<b>Message:</b><br><li>"+enc+"<br><br>Keys: "+ kk +"<br> " + 
+		"<table border=1 cellpadding=3 cellspacing=0><tr>";
+
+	for( var i=0; i < k.length; i++)
+	{
+		mg += "<td> " + k[i];
+   }
+	mg += "</table><br><br><b>AS: </b><br><br><li>";
+	d = "";
+	cur = 0;
+	for( var i=0; i < enc.length; i++)
+	{
+		c = enc.charCodeAt(i);
+  		if (c < 'A'.charCodeAt(0) || c > 'Z'.charCodeAt(0)){
+			ch= enc.charAt(i);
+			d += ch;
+		}
+		else{
+			c = c - 65;
+			t = (k[cur++ % k.length] + c) % 26;
+			d += String.fromCharCode( 65 + t);
+		}
+	}
+	d = d.toLowerCase();
+	mg += d;
+	MSG(mg);
+	document.f1.t1.value = d;
+}
+//---------------------------------------------------------------------------
+</script>
+</head>
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+<body topmargin="0">
+<FORM name=f1> 
+  <center>
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr><td align="center" colspan="3" width="100%">
+	<H3>ENCODER/DECODER - VIGENERE CYPHER</H3>
+      </td></tr>
+      <tr><td width="100%" colspan="3" height="2" bgcolor="black"></td></tr>
+      <tr><td width="100%" colspan="3" height="2" ></td></tr>
+      <tr>
+        <td width="50%" height="20" align="center"><b>Text To Encode</b></td>
+        <td width="50%" height="20" align="center"><b>Text To Decode</b></td>
+      </tr>
+      <tr>
+        <td width="50%" align="center">
+	  <textarea name=t1 cols=35 rows=10>text to encode</textarea></td>
+        <td width="50%" align="center">
+	  <textarea name=t2 cols="35" rows=10></textarea></td>
+      </tr>
+      <tr><td align="center" valign="bottom" colspan="3" width="100%">
+	<H3> -- </H3>
+		KEY = <input type="text" name="A0" size="15" maxlength="15" value="KEY"/>
+	<br>
+      </td></tr>
+    </table>
+  </center>
+<p align="center">
+  <input type="button" value="Random Key" onclick="RandomKey();">
+  <input type="button" value="Encode" onclick="Encode()">
+  <input type="button" value="Decode" onclick="Decode()">
+  <input type="button" value="Remove Spaces" onclick="RemoveSpaces()">
+  <input type="button" value="Add Spaces" onclick="AddSpaces()">  
+  <select size="1" name="D1"> 
+    <option value="4">4</option>
+    <option value="5">5</option>
+    <option value="6">6</option>
+    <option value="7">7</option>
+    <option value="8">8</option>
+    <option value="9">9</option>
+    <option value="10">10</option>
+  </select>
+	<br>
+	<BR>
+<hr>
+	<b> <font color="firebrick">
+	<div id="msg" style="display:;"></div>
+	</b></font>
+</form>
+</body>
+</html>

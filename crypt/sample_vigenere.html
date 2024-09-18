@@ -1,0 +1,109 @@
+<HTML>
+  <head>
+    <title>VIGENERE CYPHER</title>
+    <LINK REL="stylesheet" type=text/css href="lib/default.css"/>
+    <LINK REL="stylesheet" type=text/css href="lib/stylesheet1.css"/>
+    <script language=JavaScript1.2 src="lib/common.js"></script>
+    <style type=text/css>
+      A:link { COLOR: #000000; TEXT-DECORATION: none; }
+      A:visited { COLOR: #000000; TEXT-DECORATION: none; }
+      A:hover { COLOR: #987878; TEXT-DECORATION: underline; }
+      
+      .men1:link { COLOR: #ffffff; TEXT-DECORATION: none;}
+      .men1:visited { COLOR: #ffffff; TEXT-DECORATION: none; }
+      .men1:hover { COLOR: #ffffe8; TEXT-DECORATION: underline; }
+      
+      td { FONT-FAMILY: Verdana,Arial,Helvetica; FONT-SIZE: xx-small }
+      
+      body{margin-top: 0px;margin-right:0px; margin-bottom:0px; margin-left:0px;
+      FONT-FAMILY: Verdana,Arial,Helvetica; FONT-SIZE: x-small }
+      LI.arr{ margin="3"; list-style-image:url("images/marrow.gif"); }
+    </style>
+
+<script language="JavaScript">
+//---------------------------------------------------------------------------
+function MSG(s)
+{
+	var o = FIND("msg");
+	o.innerHTML = s;
+}
+var tcount = 0;
+function test(v)
+{
+// 	t = Math.mod(-3,7);
+	// Notice Math mod does not work right in javascript !! CRAP
+   alert("test " + tcount++ + " " + v );
+}
+//---------------------------------------------------------------------------
+</script>
+</head>
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+<body topmargin="0">
+<FORM name=f1> 
+  <center>
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr><td align="center" colspan="3" width="100%">
+	<H3>Sample text encoded with VIGENERE CYPHER</H3>
+      </td></tr>
+      <tr><td width="100%" colspan="3" height="2" bgcolor="black"></td></tr>
+      <tr><td width="100%" colspan="3" height="2" ></td></tr>
+      <tr>
+        <td class="sada" width="" nowrap="false">
+	    Key: JANET <br><br>
+	    <p>
+CHREEVOAHMAERATBIAXXWTNXBEEOPHBSBQMQEQERBWRVXUOAKXAOSXXWEAHBWGJMMQMNKGR <br>
+FVGXWTRZXWIAKLXFPSKAUTEMNDCMGTSXMXBTUIADNGMGPSRELXNJELXVRVPRTULHDNQWTWDTYGB <br>
+PHXTFALJHASVBFXNGLLCHRZBWELEKMSJIKNBHWRJGNMGJSGLXFEYPHAGNRBIEQJTAMRVLCRREMNDG<br>
+LXRRIMGNSNRWCHRQHAEYEVTAQEBBIPEEWEVKAKOEWADREMXMTBHHCHRTKDNVRZCHRCLQOHPWQAIIW<br>
+XNRMGWOIIFKEE
+	    </p>
+	    <p>
+THEALMONDTREEWASINTENTATIVEBLOSSOMTHEDAYSWERELONGEROFTENENDINGWITHMAGNIF
+ICENTEVENINGSOFCORRUGATEDPINKSKIESTHEHUNTINGSEASONWASOVERWITHHOUNDSANDGUNSP
+UTAWAYFORSIXMONTHSTHEVINEYARDSWEREBUSYAGAINASTHEWELLORGANIZEDFARMERSTREATED
+THEIRVINESANDTHEMORELACKADAISICALNEIGHBORSHURRIEDTODOTHEPRUNINGTHEYSHOULDHAV
+EDONEINNOVEMBER
+</p>
+	</td>
+      </tr>
+      <tr><td height="1" bgcolor="black"></td></tr>
+      <tr>
+        <td >
+	  <p align=left>
+	    Key: CRAYON
+	  <p align=left>
+YYIJSVIRZCRGJZSDWFULRCFNRZDJMJKUELSQVYEPSPCDEYTVGICCPEGRTFCSVYEUVVTCWGB
+QVYECBGKIEMFOQWTFSFCKEJZVVVBSFFVRTMBPGLPMBZAJIEVGOPBPOVPIECZRFRSGGNYKHC
+AVIYTWKNNCSPIFJZNEOFWEDCFGJVRCKNURLMBTVLMSZGWFUQGUQLTGBTUFULRYKBERVRXFIA
+SBHRTFCHURNBKNVVRQOAFKHCRRGGALRQCEKROEPRTKMSGVTAZBUVDQIYNVNJMNPUSGZRPKLW
+CIGITFSSTRGKSAVJODHUGYOSGRQWUQVRT
+	  </p>
+	  <p>
+WHILEIGAZEDTHISFISSURERAPIDLYWIDENEDTHERECAMEAFIERCEBREATHOFTHEWHIRLWINDTHEENTIREORBOFTHESATELLITEBURSTATONCEUPONMYSIGHTMYBRAINREELEDASISAWTHEMIGHTYWALLSRUSHINGASUNDERTHEREWASALONGTUMULTUOUSSHOUTINGSOUNDLIKETHEVOICEOFATHOUSANDWATERSANDTHEDEEPANDDANKTARNATMYFEETCLOSEDSULLENLYANDSILENTLYOVERTHEFRAGMENTSOFTHEHOUSEOFUSHER
+</p>
+	</td>
+      </tr>
+      <tr><td height="1" bgcolor="black"></td></tr>
+
+      <tr>
+        <td >
+	  <p align=left>
+	    Key: FIGHT
+	  <p align=left>
+DWAHKJVUATGMGBMNNASTSLAUBVCKZGTELSTPMEVNFZKAAJAGTXIMIHRNVMVKLITPVRIZLKN
+IRHLJDKYRTVKLEXMUUTQWTNXSWANAYQSLENVKAAJAAYONDGSKFBKMHWMBLKDWTLWWWVZMTH
+KYHXWUUXWWXSTYMXAAJBNPGLAEVNTETLGICVVPSQTNRTCNVPRCIOVFVEVNPVUDTGWAARTCX
+ZXQNOMRTCBLGJDKYUJMTPGFNONAYBNLYNZYAKZTKVYKQMOMHTAIBXGUBWTVUAMFTQHUTCZM
+BLPZJEZJZOXXMIVGIZASXTNLPZMBISNGQYFHZLUUHYBGSDFJUBMKQMOMHTAI
+	  </p>
+	  <p>
+YOUARENOTABEAUTIFULANDUNIQUESNOWFLAKEYOUARETHESAMEDECAYINGORGANICMATERIALASEVERYONEELSEONALONGENOUGHTIMELINETHESURVIVALRATEFOREVERYONEDROPSTOZEROSOONERORLATERTHETHINGSYOUOWNENDUPOWNINGYOUHOWMUCHCANYOUKNOWABOUTYOURSELFIFYOUVENEVERBEENINAFIGHTTHEFIRSTRULEOFFIGHTCLUBISYOUDONOTTALKABOUTFIGHTCLUBTHESECONDRULEOFFIGHTCLUBISYOUDONOTTALKABOUTFIGHTCLUB
+</p>
+	</td>
+      </tr>
+      <tr><td height="1" bgcolor="black"></td></tr>
+      
+    </table>
+  </center>
+</body>
+</html>
